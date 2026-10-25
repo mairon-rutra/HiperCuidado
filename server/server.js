@@ -7,6 +7,7 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
+// acesso teste
 let pacientesDB = {
   "12345678900": {
     nome: "Maria Silva",
@@ -27,7 +28,7 @@ let pacientesDB = {
   }
 };
 
-const medicoPadrao = {
+let medicoDB = {
   identificador: "medico@hospital.com",
   senha: "123",
   nome: "Dr. Carlos Mendes"
@@ -51,7 +52,7 @@ function encontrarPacienteKey(identificador) {
   });
 }
 
-// 1. Login Paciente
+// login paciente
 app.post('/api/auth/paciente/login', (req, res) => {
   const { identificador, senha } = req.body;
   const key = encontrarPacienteKey(identificador);
@@ -64,7 +65,7 @@ app.post('/api/auth/paciente/login', (req, res) => {
   }
 });
 
-// 2. Registro Paciente (Valida 11 números e presença de @)
+// registro paciente
 app.post('/api/auth/paciente/registrar', (req, res) => {
   const { nome, cpf, email, senha, idade } = req.body; 
   if (!nome || !cpf || !email || !senha) {
@@ -73,15 +74,15 @@ app.post('/api/auth/paciente/registrar', (req, res) => {
 
   const cpfLimpo = cpf.replace(/\D/g, '');
   if (cpfLimpo.length !== 11) {
-    return res.status(400).json({ erro: "O CPF deve conter exatamente 11 numeros." });
+    return res.status(400).json({ erro: "O CPF deve conter um número de cpf válido." });
   }
 
   if (!email.includes('@')) {
-    return res.status(400).json({ erro: "O e-mail deve conter um endereco de e-mail valido." });
+    return res.status(400).json({ erro: "O e-mail deve conter um endereco de e-mail válido." });
   }
 
   if (pacientesDB[cpfLimpo]) {
-    return res.status(400).json({ erro: "Este CPF ja esta cadastrado." });
+    return res.status(400).json({ erro: "Este CPF já está cadastrado." });
   }
 
   pacientesDB[cpfLimpo] = {
@@ -97,18 +98,18 @@ app.post('/api/auth/paciente/registrar', (req, res) => {
   res.status(201).json({ sucesso: true, cpf: cpfLimpo, ...pacientesDB[cpfLimpo] });
 });
 
-// 3. Login Médico
+// login medico
 app.post('/api/auth/medico/login', (req, res) => {
   const { identificador, senha } = req.body;
   const cleanId = identificador ? identificador.trim().toLowerCase() : '';
-  if (cleanId === medicoPadrao.identificador && senha === medicoPadrao.senha) {
-    res.json({ sucesso: true, nome: medicoPadrao.nome, perfil: 'clinical' });
+  if (cleanId === medicoDB.identificador && senha === medicoDB.senha) {
+    res.json({ sucesso: true, nome: medicoDB.nome, perfil: 'clinical' });
   } else {
     res.status(401).json({ erro: "Credenciais de medico invalidas." });
   }
 });
 
-// 4. Listar Pacientes para o Clínico
+// listar pacientes pro medico
 app.get('/api/clinico/pacientes', (req, res) => {
   const lista = Object.keys(pacientesDB).map((cpf, index) => {
     const p = pacientesDB[cpf];
@@ -127,7 +128,7 @@ app.get('/api/clinico/pacientes', (req, res) => {
   res.json(lista);
 });
 
-// 5. Registrar nova medição (Substitui a última do mesmo tipo)
+// registrar nova medição
 app.post('/api/pacientes/:cpf/metricas', (req, res) => {
   const { cpf } = req.params;
   const key = encontrarPacienteKey(cpf);
@@ -144,7 +145,7 @@ app.post('/api/pacientes/:cpf/metricas', (req, res) => {
   }
 });
 
-// 6. Alternar estado tomado do medicamento pelo paciente
+// alternar estado tomado do remedio do paciene
 app.patch('/api/pacientes/:cpf/medicamentos/:id', (req, res) => {
   const { cpf, id } = req.params;
   const key = encontrarPacienteKey(cpf);
@@ -162,7 +163,7 @@ app.patch('/api/pacientes/:cpf/medicamentos/:id', (req, res) => {
   }
 });
 
-// 7. Médico Adiciona ou Edita Medicamento
+// médico adiciona ou edita medicamento
 app.post('/api/clinico/pacientes/:cpf/medicamentos', (req, res) => {
   const { cpf } = req.params;
   const key = encontrarPacienteKey(cpf);
