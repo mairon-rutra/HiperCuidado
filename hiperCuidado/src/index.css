@@ -29,14 +29,12 @@ body {
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* Layout e Containers */
 .app-container, div[class*="bg-white"] {
   background-color: var(--card-bg) !important;
   color: var(--text-main) !important;
   border-color: var(--border-color) !important;
 }
 
-/* Inputs, Selects e Textareas */
 input, select, textarea {
   background-color: var(--input-bg) !important;
   color: var(--text-main) !important;
@@ -47,7 +45,6 @@ input::placeholder {
   color: var(--text-muted) !important;
 }
 
-/* Botões e Utilitários Globais */
 button {
   cursor: pointer;
   transition: opacity 0.2s, transform 0.1s;

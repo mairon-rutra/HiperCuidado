@@ -12,6 +12,7 @@ export default function ClinicalDashboard({ onBackToLogin }) {
   const [editandoId, setEditandoId] = useState(null);
   const [mensagemStatus, setMensagemStatus] = useState('');
 
+  // carrega lista de pacientes e desativa o estado de carregamento
   const carregarDados = async () => {
     const data = await listarPacientesClinico();
     setPacientes(data || []);
@@ -22,6 +23,7 @@ export default function ClinicalDashboard({ onBackToLogin }) {
     carregarDados();
   }, []);
 
+  // envia os dados para salvar ou atualizar um medicamento do paciente selecionado e atualiza a lista
   const handleSalvarMedicamento = async (e) => {
     e.preventDefault();
     if (!pacienteSelecionado) return;
@@ -48,6 +50,7 @@ export default function ClinicalDashboard({ onBackToLogin }) {
     }
   };
 
+  // remove um medicamento do paciente selecionado com base e atualiza os dados
   const handleRemoverMedicamento = async () => {
     if (!editandoId || !pacienteSelecionado) return;
 
@@ -64,6 +67,7 @@ export default function ClinicalDashboard({ onBackToLogin }) {
     }
   };
 
+  // preenche campos da medicação escolhida
   const iniciarEdicao = (med) => {
     setEditandoId(med.id);
     setNomeMed(med.nome);
@@ -72,6 +76,7 @@ export default function ClinicalDashboard({ onBackToLogin }) {
     setMensagemStatus('');
   };
 
+  // limpa campos da medicação escolhida
   const cancelarEdicao = () => {
     setEditandoId(null);
     setNomeMed('');

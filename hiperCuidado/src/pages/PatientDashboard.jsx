@@ -9,11 +9,13 @@ export default function PatientDashboard({ paciente, onLogout }) {
   const [valorMedicao, setValorMedicao] = useState('');
   const [salvando, setSalvando] = useState(false);
 
+  // filtra o texto digitado no campo de valor para remover letras
   const handleValorChange = (e) => {
     const apenasNumerosESimbolos = e.target.value.replace(/[a-zA-Z]/g, '');
     setValorMedicao(apenasNumerosESimbolos);
   };
 
+  // valida, calcula o risco clinico, envia e atualiza a nova medicao de saude
   const adicionarMedicao = async (e) => {
     e.preventDefault();
     if (!valorMedicao) return;
@@ -52,6 +54,7 @@ export default function PatientDashboard({ paciente, onLogout }) {
     setValorMedicao('');
   };
 
+  // alterna o status de tomado ou nao tomado de um medicamento especifico
   const handleToggleTomado = async (id) => {
     const resp = await toggleMedicamento(paciente?.cpf, id);
     if (resp && resp.medicamentos) {

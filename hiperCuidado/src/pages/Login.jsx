@@ -11,7 +11,7 @@ export default function Login({ onLoginSuccess, onGoToClinical }) {
   const [cpfReg, setCpfReg] = useState('');
   const [emailReg, setEmailReg] = useState('');
   const [senhaReg, setSenhaReg] = useState('');
-  const [idadeReg, setIdadeReg] = useState(''); // <-- Novo estado para a idade
+  const [idadeReg, setIdadeReg] = useState('');
 
   const [erro, setErro] = useState('');
   const [sucessoMsg, setSucessoMsg] = useState('');
@@ -54,7 +54,7 @@ export default function Login({ onLoginSuccess, onGoToClinical }) {
       cpf: cpfLimpo,
       email: emailReg,
       senha: senhaReg,
-      idade: idadeReg // <-- Enviando a idade para o backend
+      idade: idadeReg 
     });
     setCarregando(false);
 

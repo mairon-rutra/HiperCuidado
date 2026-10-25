@@ -1,5 +1,6 @@
 const API_URL = "http://127.0.0.1:3001/api";
 
+// faz o login do paciente enviando identificador e senha
 export async function loginPaciente(identificador, senha) {
   try {
     const response = await fetch(`${API_URL}/auth/paciente/login`, {
@@ -15,6 +16,7 @@ export async function loginPaciente(identificador, senha) {
   }
 }
 
+// cadastra um novo paciente
 export async function registrarPaciente(dados) {
   try {
     const response = await fetch(`${API_URL}/auth/paciente/registrar`, {
@@ -31,6 +33,7 @@ export async function registrarPaciente(dados) {
   }
 }
 
+// faz o login do medico
 export async function loginMedico(identificador, senha) {
   try {
     const response = await fetch(`${API_URL}/auth/medico/login`, {
@@ -46,6 +49,7 @@ export async function loginMedico(identificador, senha) {
   }
 }
 
+// salva uma nova medicao de saude para o cpf do paciente informado
 export async function salvarNovaMedicao(cpf, novaMetrica) {
   try {
     const response = await fetch(`${API_URL}/pacientes/${encodeURIComponent(cpf)}/metricas`, {
@@ -61,6 +65,7 @@ export async function salvarNovaMedicao(cpf, novaMetrica) {
   }
 }
 
+// alterna o status de tomado do medicamento do paciente
 export async function toggleMedicamento(cpf, id) {
   try {
     const response = await fetch(`${API_URL}/pacientes/${encodeURIComponent(cpf)}/medicamentos/${id}`, {
@@ -74,6 +79,7 @@ export async function toggleMedicamento(cpf, id) {
   }
 }
 
+// busca a lista completa de pacientes para a visao do medico
 export async function listarPacientesClinico() {
   try {
     const response = await fetch(`${API_URL}/clinico/pacientes`, { cache: 'no-store' });
@@ -84,6 +90,7 @@ export async function listarPacientesClinico() {
   }
 }
 
+// permite ao medico adicionar ou editar um medicamento do paciente
 export async function medicoSalvarMedicamento(cpf, medData) {
   try {
     const response = await fetch(`${API_URL}/clinico/pacientes/${encodeURIComponent(cpf)}/medicamentos`, {
@@ -99,6 +106,7 @@ export async function medicoSalvarMedicamento(cpf, medData) {
   }
 }
 
+// permite ao medico excluir um medicamento da lista do paciente
 export async function medicoDeletarMedicamento(cpf, id) {
   try {
     const response = await fetch(`${API_URL}/clinico/pacientes/${encodeURIComponent(cpf)}/medicamentos/${id}`, {
